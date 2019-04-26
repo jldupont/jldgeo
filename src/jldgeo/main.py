@@ -31,30 +31,40 @@ Algorithm:
 import click
 import ijson
 
-from fsm import GeojsonFsm
+from jldgeo.fsm import GeojsonFsm
 
 @click.command()
 @click.option(
     '--inputfile'
     ,type=click.File('r')
     ,help="""File of geojson format containing a FeatureCollection object"""
+    ,required=True
 )
-def geojson_converter(inputfile):
+@click.option(
+    '--count'
+    ,default=None
+    ,help="""The maximum number of objects to emit on stdout"""
+)
+def geojson_converter(inputfile, count):
     """
     The main entry point
     """
+    if inputfile is None:
+        raise Exception("Missing ")
+    
+    max_count = count
+    current_count = 0
     parser = ijson.parse(inputfile)
     
-    count = 1000
     f = GeojsonFsm()
     
     for prefix, event, value in parser:
         f.submitEvent(prefix, event, value)
-        
-        count-=1
-        
-        if count == 0:
-            break
+
+        if count != None:  
+            current_count += 1
+            if current_count == max_count:
+                break
     
 
 if __name__ == '__main__':
