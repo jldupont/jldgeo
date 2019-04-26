@@ -7,6 +7,7 @@ state(a,b,c) = action
 '''
 
 class StateExists(Exception): pass
+class NoDefaultStateExists(Exception): pass
 
 class States:
     """
@@ -37,23 +38,32 @@ class States:
         assert callable(action), "Parameter 'action' must be a callable"
         
         def _add(_map, action, cp):
+            
+            # Terminate the recursion
             if len(cp) == 0:
                 return
             
+            # Are we at the last step, ready to assign the action?
             if len(cp) == 1:
                 #
                 # Is there already something at this state?
                 #
                 try:
-                    _ = map[cp[0]]
+                    _ = _map[cp[0]]
                 except:
-                    pass
+                    #
+                    # State does not exists so use, perfect.
+                    #
+                    _map[cp[0]] = action
                 else:
                     raise StateExists("State is already defined at: "+str(components))
                 
-                _map[cp[0]] = action
                 return
             
+            #
+            # We are in the "middle" of the process.
+            # 
+            #
             down_map = _map.get(cp[0], {})
             
             if callable(down_map):
@@ -70,12 +80,10 @@ class States:
         
         _add(self._map, action, components)
         
-        
-    def get(self, default_action, *components):
+    def get(self, *components):
         """
         Retrieves a mapping [state, action]
         """
-        assert callable(default_action), "Must have a default callable action"
         assert len(components) > 0, "Must have at least 1 state component"
         
         def _drill(_map, cp):
@@ -83,7 +91,7 @@ class States:
             if len(cp) == 1:
                 maybe_action = _map.get(comp, None)
                 if maybe_action is None:
-                    return default_action
+                    return None
                 
                 if callable(maybe_action):
                     return maybe_action
@@ -92,13 +100,32 @@ class States:
                 # It's not a callable
                 #  so it can't be a match at this point...
                 #
-                return default_action
+                return None
             
             maybe_next_level = _map.get(comp, None)
             if maybe_next_level is None:
-                return default_action
+                return None
             
             return _drill(maybe_next_level, cp[1:])
         
         return _drill(self._map, components)
+    
+    def step(self, context, *components):
+        """
+        Performs a step
+        """
+        action = self.get(*components)
+        
+        if action is None:
+            catch_all_entry = list(components[:-1])
+            catch_all_entry.append('*')
+            # Is there a catch-all in place ?
+            default_action = self.get(*catch_all_entry)
+            if default_action is None:
+                raise NoDefaultStateExists(str(catch_all_entry))
+            
+            action = default_action
+        
+        return action({"context": context, "state": components})
+
     

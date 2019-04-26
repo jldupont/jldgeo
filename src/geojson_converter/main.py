@@ -31,6 +31,8 @@ Algorithm:
 import click
 import ijson
 
+from fsm import GeojsonFsm
+
 @click.command()
 @click.option(
     '--inputfile'
@@ -41,10 +43,18 @@ def geojson_converter(inputfile):
     """
     The main entry point
     """
-    parser = ijson.parse(input)
+    parser = ijson.parse(inputfile)
+    
+    count = 1000
+    f = GeojsonFsm()
     
     for prefix, event, value in parser:
-        print(prefix, event, value)
+        f.submitEvent(prefix, event, value)
+        
+        count-=1
+        
+        if count == 0:
+            break
     
 
 if __name__ == '__main__':
