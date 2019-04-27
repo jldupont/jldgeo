@@ -8,14 +8,14 @@
 	@author: jldupont
 	2019-04-27
 """
-__version__="0.1"
-import os, sys
-op=os.path
+import sys
 
 try:
     import jldgeo #@UnusedImport
 except:
-    ### must be in dev mode then    
+    ### must be in dev mode then
+    import os
+    op=os.path    
     this_dir=op.dirname(__file__)
     lib_path=op.abspath(op.join(this_dir, ".."))
     sys.path.insert(0, lib_path)

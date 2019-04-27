@@ -8,7 +8,7 @@ __author__ = "Jean-Lou Dupont"
 __version__ = "0.1"
 
 DESC="""
-Feature Collection geojson file to NL JSON of geometry objects
+Feature Collection geojson file to NL JSON of Feature objects
 """
 
 from distutils.core import setup
@@ -17,7 +17,7 @@ from setuptools import find_packages
 
 setup(name=         'jldgeo',
       version=      __version__,
-      description=  'Geojson converter',
+      description=  'Geojson Feature objects lister',
       author=       __author__,
       author_email= 'jl@jldupont.com',
       url=          'https://github.com/jldupont/jldgeo',

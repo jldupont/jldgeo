@@ -28,10 +28,12 @@ Algorithm:
 * features.item end_map
 
 '''
+import sys
+import logging
 import click
 import ijson
 
-from jldgeo.fsm import GeojsonFsm
+from jldgeo.fsm import GeojsonFsm, EndOfFile
 
 @click.command()
 @click.option(
@@ -59,8 +61,17 @@ def geojson_converter(inputfile, count):
     f = GeojsonFsm()
     
     for prefix, event, value in parser:
-        f.submitEvent(prefix, event, value)
-
+        try:
+            f.submitEvent(prefix, event, value)
+            
+        except EndOfFile:
+            sys.exit(0) # no error
+            break
+        
+        except Exception as e:
+            logging.error(e)
+            sys.exit(1)
+        
         if count != None:  
             current_count += 1
             if current_count == max_count:

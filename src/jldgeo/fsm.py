@@ -75,6 +75,9 @@ class Fsm:
     def start_feature(self):
         self.feature_string = ""
 
+    def evt_null(self):
+        self.feature_string += "null"
+
     def evt_start_map(self):
         self.feature_string += "{ "
 
@@ -141,14 +144,15 @@ class Fsm:
         a feature
         """
         try:
-            jobj = json.loads(self.feature_string)
+            # We just need to make we have a valid json
+            _ = json.loads(self.feature_string)
             
         except Exception as _e:
             print(self.feature_string)
             print(_e)
             raise InvalidStringForJsonObject()
         else:
-            print(jobj)
+            print(self.feature_string+"\n")
 
 '''
 When to prepend a comma:
