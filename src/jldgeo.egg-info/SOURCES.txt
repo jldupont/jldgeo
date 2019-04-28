@@ -15,4 +15,5 @@ src/jldgeo/tests/tests.py
 src/jldgeo/tests/tests2.py
 src/jldjson/__init__.py
 src/jldjson/main.py
+src/scripts/jldgeojson
 src/scripts/jldjson

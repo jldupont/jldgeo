@@ -5,7 +5,7 @@ Created on Apr. 26, 2019
 @author: jldupont
 '''
 __author__ = "Jean-Lou Dupont"
-__version__ = "0.1"
+__version__ = "0.2"
 
 DESC="""
 Feature Collection geojson file to NL JSON of Feature objects
@@ -23,7 +23,7 @@ setup(name=         'jldgeo',
       url=          'https://github.com/jldupont/jldgeo',
       package_dir=  {'': "src",},
       packages=     find_packages("src"),
-      scripts=      ['src/scripts/jldgeo'
+      scripts=      ['src/scripts/jldgeojson'
                      ,'src/scripts/jldjson'
                      ],
       zip_safe=False
