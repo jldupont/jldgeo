@@ -20,6 +20,9 @@ def command(ignore, stderr, keep):
         
         line = " ".join(line.split())
         
+        if len(line) == 0:
+            continue
+        
         try:
             jobj = json.loads(line)
             
