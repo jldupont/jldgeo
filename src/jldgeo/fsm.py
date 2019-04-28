@@ -187,7 +187,7 @@ class GeojsonFsm(Fsm):
         
         if event == 'end_map':
             if prefix == '':
-                if value == None:
+                if value == None or value == '':
                     raise EndOfFile()
         
         self.wait('features.item', 'start_map')
