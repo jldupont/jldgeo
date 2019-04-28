@@ -17,6 +17,9 @@ import json
 def command(ignore, stderr, keep):
     
     for line in sys.stdin:
+        
+        line = " ".join(line.split())
+        
         try:
             jobj = json.loads(line)
             
