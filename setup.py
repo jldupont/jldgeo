@@ -24,6 +24,7 @@ setup(name=         'jldgeo',
       package_dir=  {'': "src",},
       packages=     find_packages("src"),
       scripts=      ['src/scripts/jldgeo'
+                     ,'src/scripts/jldjson'
                      ],
       zip_safe=False
       ,long_description=DESC

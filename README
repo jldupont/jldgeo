@@ -1,3 +1,9 @@
+Example:
+
+jldjson -k properties -k geometry --stderr -i
+
+
+
 "features": [
 { "type": "Feature", 
   "properties": { "PCA_ID": 180000059, "POSTALCODE": "P0R1L0", "PROV": "ON", "MAF_ID
