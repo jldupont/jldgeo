@@ -5,7 +5,7 @@ Created on Apr. 25, 2019
 '''
 import unittest
 
-from geojson_converter.fsm import GeojsonFsm, MissingState
+from jldgeo.fsm import GeojsonFsm, MissingState
 
 class Test(unittest.TestCase):
 
@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
         
         self.f.submitEvent(None, None, None)
         
-        assert self.f.state == 'waitForMapKeyFeatures'
+        assert self.f.state == 'waitStartFeaturesItem', "got: "+self.f.state
         
     def testFsmSimple2(self):
         

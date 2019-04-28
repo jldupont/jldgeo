@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
 Name: jldgeo
-Version: 0.4
-Summary: Geojson Feature objects lister
+Version: 0.5
+Summary: Various geojson/json utilities
 Home-page: https://github.com/jldupont/jldgeo
 Author: Jean-Lou Dupont
 Author-email: jl@jldupont.com

@@ -1,3 +1,16 @@
+jldjson
+=======
+
+Reads a JSON NL input stream. Keep the wanted (key:value) pairs from the stream
+using the -k option.
+
+Once the wanted pairs are selected, chosen other actions to perform.
+
+Options
+* -k : "keep" the specified (key:value) from the json NL object
+* -u : "unpack" the specified dict value for the specified key. The value in the pair must
+       of course be a dictionary.
+
 Example:
 
 jldjson -k properties -k geometry --stderr -i

@@ -10,41 +10,37 @@ import sys
 import click
 import json
 
+import jldjson.tools as tools
+
 @click.command()
+@click.option('--unpack', '-u', help="Unpack a dictionary", multiple=True)
 @click.option('--ignore', '-i', help="Ignore error", default=False, is_flag=True)
 @click.option('--stderr', help="Errors will be printed to sys.stderr", is_flag=True)
 @click.option('--keep', '-k', multiple=True, help="Key to keep in input object")
-def command(ignore, stderr, keep):
+def command(unpack, ignore, stderr, keep):
     
     for line in sys.stdin:
         
-        line = " ".join(line.split())
-        
-        if len(line) == 0:
-            continue
-        
         try:
-            jobj = json.loads(line)
-            
-        except:
-            jobj = None
+            jobj = tools.loader(line)
+            to_unpack = tools.keep(jobj, keep)
+            out = tools.unpack(to_unpack, unpack)
+                        
+        except tools.Skip():
+            continue
+                        
+        except Exception as e:
+            out = None
             
             if stderr:
-                print("Expecting JSON object, got:", line, file=sys.stderr)
+                print("Error: ", str(e), file=sys.stderr)
             
             if ignore == False:
-                raise Exception("Expecting JSON object")
+                raise e
             
-
-        if jobj is None:
+        if out is None:
             continue
 
-        out = {}
-
-        for item in keep:
-            if item in jobj:
-                out[item] = jobj[item]
-                
         print(json.dumps(out))
     
 
