@@ -28,6 +28,20 @@ class Skip(ControlFlow):
     Skip the current iteration
     """
 
+def stringify(input_obj, which_key_to_stringify):
+    
+    for key in which_key_to_stringify:
+        value_to_stringify = input_obj[key]
+        
+        try:
+            result = json.dumps(value_to_stringify)
+        except:
+            raise ExpectingJSONObject(str(value_to_stringify))
+        
+        input_obj[key] = result
+        
+    return input_obj
+
 
 def loader(line):
     

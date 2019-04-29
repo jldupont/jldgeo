@@ -5,7 +5,7 @@ Created on Apr. 26, 2019
 @author: jldupont
 '''
 __author__ = "Jean-Lou Dupont"
-__version__ = "0.6"
+__version__ = "0.7"
 
 DESC="""
 Feature Collection geojson file to NL JSON of Feature objects

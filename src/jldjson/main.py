@@ -6,7 +6,7 @@ Created on Apr. 28, 2019
 Performs various operations on NL JSON stdin stream
 
 '''
-__version__ = "0.1"
+__version__ = "0.2"
 
 import sys
 import click
@@ -20,7 +20,8 @@ import jldjson.tools as tools
 @click.option('--ignore', '-i', help="Ignore error", default=False, is_flag=True)
 @click.option('--stderr', help="Errors will be printed to sys.stderr", is_flag=True)
 @click.option('--keep', '-k', multiple=True, help="Key to keep in input object")
-def command(version, unpack, ignore, stderr, keep):
+@click.option('--string', '-s', multiple=True, help="Key for which to stringify the value")
+def command(version, unpack, ignore, stderr, keep, string):
     """
     Various operators to JSON NL stdin stream
     """
@@ -33,8 +34,9 @@ def command(version, unpack, ignore, stderr, keep):
         try:
             jobj = tools.loader(line)
             to_unpack = tools.keep(jobj, keep)
-            out = tools.unpack(to_unpack, unpack)
-                        
+            to_stringify = tools.unpack(to_unpack, unpack)
+            out = tools.stringify(to_stringify, string)
+            
         except tools.Skip:
             continue
                         
